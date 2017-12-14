@@ -1,0 +1,305 @@
+﻿<Window x:Class="WpfPitchTuner.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:syscore="clr-namespace:System;assembly=mscorlib"
+        xmlns:sys="clr-namespace:System.Windows;assembly=PresentationFramework"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"                
+        xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"      
+        xmlns:conv="clr-namespace:WpfPitchTuner.Converters"        
+        xmlns:provider="clr-namespace:WpfPitchTuner.Provider"
+        xmlns:helper="clr-namespace:WpfPitchTuner.Helper"
+        xmlns:view="clr-namespace:WpfPitchTuner.View"
+        xmlns:settings="clr-namespace:WpfPitchTuner.Settings"
+        xmlns:ulibbass="clr-namespace:WpfControlLibraryBass.Elements;assembly=WpfControlLibraryBass"        
+        xmlns:business="clr-namespace:WpfPitchTuner.Business"
+        WindowStartupLocation="CenterScreen"                
+        Title="{StaticResource appTitle}"
+        ResizeMode="NoResize"
+        WindowStyle="None"        
+        AllowsTransparency="True"                        
+        Width="{Binding ElementName=background, Path=ImageSource.Width}"
+        Height="{Binding ElementName=background, Path=ImageSource.Height}"
+        helper:SkinHelper.SelectedSkin="{Binding Path=SelectedSkin}" 
+        Icon="Assets/logo_ico.ico"                 
+    >
+
+    <Window.DataContext>
+        <Binding Source="{x:Static provider:ViewModelLocator.Instance}" Path="MainVM" />
+    </Window.DataContext>
+
+    <Window.Background>                              
+        <ImageBrush x:Name="background" AlignmentX="Center" AlignmentY="Top" Opacity="{DynamicResource windows_opacity}" ImageSource="{DynamicResource background}" Stretch="None" />
+    </Window.Background>
+
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="visibilityConverter"/>
+        <RoutedUICommand x:Key="OpenPreferencesCommand" Text="Open Preferences" />
+        <Storyboard x:Key="stb_threshold" 
+                    Storyboard.TargetName="tresholdtext"  
+                    Storyboard.TargetProperty="Opacity"                                         
+                    Duration="0:0:4"
+                    >
+            <DoubleAnimationUsingKeyFrames>
+                <LinearDoubleKeyFrame Value="1" KeyTime="0:0:0.3" />                
+                <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:2.7" />
+                <LinearDoubleKeyFrame Value="0" KeyTime="0:0:3" />
+            </DoubleAnimationUsingKeyFrames>            
+        </Storyboard>
+
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <StackPanel Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" x:Name="panel">
+                            <ContentPresenter Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" />
+                        </StackPanel>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Opacity" Value="0.4" TargetName="panel" />
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.8" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>        
+        
+    </Window.Resources>
+
+    <Window.Style>
+        <Style TargetType="{x:Type Window}">
+            <EventSetter Event="MouseDown" Handler="Border_MouseDown" />
+        </Style>
+    </Window.Style>
+    
+    <Grid VerticalAlignment="Top">
+        <Grid.Resources>            
+            <Style TargetType="{x:Type TextBlock}">
+                <Setter Property="FontFamily" Value="{DynamicResource displayFamily}" />
+                <Setter Property="Foreground" Value="{DynamicResource displayColor}" />
+            </Style>
+        </Grid.Resources>
+        <!-- cents bar -->
+        <Image x:Name="cents_bar" Source="{DynamicResource bar_meter}" Stretch="None" Margin="{DynamicResource bar_meter_margin}"  VerticalAlignment="Top"  HorizontalAlignment="{DynamicResource barmeter_align}" />                    
+        <!-- led -->
+        <Image x:Name="led" Source="{DynamicResource knob_meter}" Stretch="None" Margin="{DynamicResource knob_meter_margin}" VerticalAlignment="Top" HorizontalAlignment="{DynamicResource knobmeter_align}" >            
+            <!--
+            <Image.Style>
+                <Style TargetType="{x:Type Image}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=IsListening}" Value="True">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard Storyboard="{DynamicResource stb_knob_meter}" x:Name="knobopacity" />
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <RemoveStoryboard BeginStoryboardName="knobopacity"/>
+                            </DataTrigger.ExitActions>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Image.Style>
+            -->
+            <Image.RenderTransform>
+                <!--<TranslateTransform X="{Binding Cents, Converter={StaticResource barMeterConverter}}" />-->                
+                <TranslateTransform>
+                    <TranslateTransform.X>
+                        <Binding Path="Cents">
+                            <Binding.Converter>
+                                <conv:BarMeterTranslateConverter MeterWidthResource="meter_width" />                                
+                            </Binding.Converter>
+                        </Binding>
+                    </TranslateTransform.X>
+                </TranslateTransform>
+            </Image.RenderTransform>
+        </Image>
+        <Image Source="{DynamicResource panel}" Stretch="None" Margin="{DynamicResource panel_margin}" VerticalAlignment="Top" HorizontalAlignment="{DynamicResource panel_align}" x:Name="panel" />
+        <!-- threshold text -->
+        <TextBlock x:Name="tresholdtext" Opacity="0" Width="Auto" Margin="{DynamicResource treshold_text_margin}" VerticalAlignment="Top" HorizontalAlignment="{DynamicResource threshold_text_align}" FontSize="{DynamicResource threshold_fontsize}" >
+            <Run>Threshold: </Run>
+            <Run Text="{Binding Threshold, StringFormat='0.000'}" ></Run>
+        </TextBlock>
+        <!-- note -->
+        <TextBlock x:Name="notetext" Margin="{DynamicResource note_display_margin}" FontSize="{DynamicResource fontsize_notedisplay}" VerticalAlignment="Top" HorizontalAlignment="{DynamicResource notedisplay_align}">                                    
+            <TextBlock.Style>                
+                <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">                    
+                    <Style.Triggers>                        
+                        <DataTrigger Binding="{Binding IsListening}" Value="True">
+                            <Setter Property="Text" Value="{Binding Note}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsListening}" Value="False">
+                            <Setter Property="Text" Value="{DynamicResource message_off}" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+        <!-- frequence -->
+        <TextBlock x:Name="freqtext" Margin="{DynamicResource freq_display_margin}" FontSize="{DynamicResource fontsize_freqdisplay}" VerticalAlignment="Top" HorizontalAlignment="{DynamicResource freqdisplay_align}" Visibility="{Binding IsListening, Converter={StaticResource visibilityConverter}}">
+            <TextBlock.Inlines>
+                <Run Text="{Binding Frequency, StringFormat='#0.###'}" />
+                <Run>Hz</Run>
+                <Run Text="{Binding Cents, StringFormat='#0.0'}" />
+                <Run>Cents</Run>
+            </TextBlock.Inlines>
+        </TextBlock>
+        <!-- power button -->
+        <Button Margin="{DynamicResource powerbtn_margin}"  Background="Transparent" Click="Button_Click" VerticalAlignment="Top" HorizontalAlignment="{DynamicResource powerbtn_align}">
+            <Image Source="{DynamicResource powerbtn}" Stretch="None" />
+        </Button>
+        <!-- preferences button -->
+        <Button Margin="{DynamicResource preferencesbtn_margin}"  Background="Transparent" Click="Settings_Click" VerticalAlignment="Top" HorizontalAlignment="{DynamicResource preferencesbtn_align}">
+            <Image Source="{DynamicResource settingsbtn}" Stretch="None" />
+        </Button>
+        <!-- switch button -->
+        <Button Margin="{DynamicResource switchbtn_margin}" Command="{Binding SwitchListenCommand}" VerticalAlignment="Top" HorizontalAlignment="{DynamicResource switchbtn_align}">
+            <Button.Triggers>
+                <EventTrigger RoutedEvent="Button.Click">
+                    <EventTrigger.Actions>
+                        <SoundPlayerAction Source="{DynamicResource switch_sound}" />
+                    </EventTrigger.Actions>
+                </EventTrigger>
+            </Button.Triggers>
+            <Image Stretch="None">
+                <Image.Style>
+                    <Style TargetType="{x:Type Image}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsListening}" Value="False">
+                                <Setter Property="Source" Value="{DynamicResource switchbtn_off}" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsListening}" Value="True">
+                                <Setter Property="Source" Value="{DynamicResource switchbtn_on}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Image.Style>
+            </Image>
+        </Button>
+        <!-- spectrum -->
+        <Button Command="{Binding ChangeSpectrumDisplayCommand}" Width="{DynamicResource spectrum_width}" Height="{DynamicResource spectrum_height}" Margin="{DynamicResource spectrum_margin}" VerticalAlignment="Top" HorizontalAlignment="{DynamicResource spectrum_align}">
+            <ulibbass:SpectrumAnalyzer  
+                Opacity="{DynamicResource spectrum_opacity}"
+                VerticalAlignment="Top"                
+                Stream="{Binding Channel}"
+                IsPlaying="{Binding IsListening}"
+                Color="{DynamicResource spectrumColor}"
+                Display="{Binding CurrentSpectrumDisplay}"                                            
+                Width="{DynamicResource spectrum_width}"
+                Height="{DynamicResource spectrum_height}"
+                />
+        </Button>
+        <!-- threshold slider -->
+        <Slider x:Name="threshold_slider" Minimum="0.001" Maximum="0.05" TickFrequency="0.001" IsSnapToTickEnabled="True" SnapsToDevicePixels="True" LargeChange="0.002" SmallChange="0.001" VerticalAlignment="Top" HorizontalAlignment="{DynamicResource threshold_slider_align}" Margin="{DynamicResource treshold_slider_margin}" Value="{Binding Threshold, UpdateSourceTrigger=PropertyChanged}">
+            <Slider.Resources>
+                <Style x:Key="RepeatButtonTransparent" TargetType="{x:Type RepeatButton}">
+                    <Setter Property="OverridesDefaultStyle" Value="true"/>
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="Focusable" Value="false"/>
+                    <Setter Property="IsTabStop" Value="false"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type RepeatButton}">
+                                <Rectangle Fill="{TemplateBinding Background}" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}"/>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+                <Style TargetType="{x:Type Slider}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Slider}">
+                                <Grid x:Name="GridRoot">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <TickBar x:Name="TopTick" Height="4" Placement="Top" SnapsToDevicePixels="True" Visibility="Collapsed"/>
+                                    <Image Source="{DynamicResource slider_bar}" HorizontalAlignment="Center" Stretch="None" Grid.Row="1"/>
+                                    <Track x:Name="PART_Track" Grid.Row="1">
+                                        <Track.DecreaseRepeatButton>
+                                            <RepeatButton Command="{x:Static Slider.DecreaseLarge}" Style="{StaticResource RepeatButtonTransparent}"/>
+                                        </Track.DecreaseRepeatButton>
+                                        <Track.IncreaseRepeatButton>
+                                            <RepeatButton Command="{x:Static Slider.IncreaseLarge}" Style="{StaticResource RepeatButtonTransparent}"/>
+                                        </Track.IncreaseRepeatButton>
+                                        <Track.Thumb>
+                                            <Thumb/>
+                                        </Track.Thumb>
+                                    </Track>
+                                    <TickBar x:Name="BottomTick" Height="4" Grid.Row="2" Fill="{TemplateBinding Foreground}" Placement="Bottom" SnapsToDevicePixels="True" Visibility="Collapsed"/>
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+                <Style TargetType="{x:Type Thumb}">
+                    <Setter Property="Margin" Value="0"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Thumb}">
+                                <Image Source="{DynamicResource slider_knob}" VerticalAlignment="Top" Margin="{DynamicResource threshold_knob_margin}" Stretch="None" />
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Slider.Resources>
+        </Slider>
+    </Grid>
+
+    <i:Interaction.Triggers>
+
+        <!-- application loaded event -->
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{x:Static view:Commands.InitViewModelCommand}" />            
+            <i:InvokeCommandAction Command="{Binding Source={x:Static settings:SettingsManager.Instance},  Path=LoadPreferencesCommand}" />
+            <i:InvokeCommandAction Command="{Binding InitCommand}" CommandParameter="{Binding Source={x:Static provider:ViewModelLocator.Instance}, Path=PreferencesVM}" />
+            <i:InvokeCommandAction Command="{Binding Source={x:Static settings:SettingsManager.Instance},  Path=LoadMainCommand}" />
+            <i:InvokeCommandAction Command="{Binding Source={x:Static provider:ViewModelLocator.Instance}, Path=PreferencesVM.CheckForUpdatesCommand}" />
+        </i:EventTrigger>
+
+        <!-- application out of date event -->
+        <i:EventTrigger EventName="SoftwareOutOfDateEvent" SourceObject="{Binding Source={x:Static provider:ViewModelLocator.Instance}, Path=PreferencesVM}">
+            <view:InvokeDelegateCommandAction 
+                Command="{x:Static view:Commands.ShowMessageOutOfDateVersionCommand}" 
+                CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}" 
+                />
+        </i:EventTrigger>
+        <!-- storyboard for threshold -->
+        <i:EventTrigger EventName="ValueChanged" SourceName="threshold_slider">
+            <ei:ControlStoryboardAction Storyboard="{StaticResource stb_threshold}" />
+        </i:EventTrigger>
+
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding Source={x:Static settings:SettingsManager.Instance},  Path=SaveMainCommand}" />
+            <i:InvokeCommandAction Command="{Binding ReleaseResourcesCommand}" />            
+        </i:EventTrigger>        
+
+    </i:Interaction.Triggers>
+
+    <Window.CommandBindings>
+        <CommandBinding Command="{StaticResource OpenPreferencesCommand}" Executed="Settings_Click" />
+    </Window.CommandBindings>
+
+    <Window.InputBindings>        
+        <KeyBinding Command="{Binding SwitchListenCommand}" Key="S"></KeyBinding>
+        <KeyBinding Command="{Binding ResetThresholdCommand}" Key="T"></KeyBinding>
+        <KeyBinding Command="{StaticResource OpenPreferencesCommand}" Modifiers="Control" Key="O"></KeyBinding>
+    </Window.InputBindings>
+    
+    <Window.ContextMenu>
+        <ContextMenu ItemsSource="{Binding Source={StaticResource skins}}">
+            <ContextMenu.ItemContainerStyle>
+                <Style TargetType="{x:Type MenuItem}">
+                    <Setter Property="Header" Value="{Binding}" />
+                    <Setter Property="Command" Value="{Binding Source={x:Static provider:ViewModelLocator.Instance}, Path=MainVM.SetSelectedSkinCommand}" />
+                    <Setter Property="CommandParameter" Value="{Binding}" />
+                </Style>                                
+            </ContextMenu.ItemContainerStyle>                        
+        </ContextMenu>
+    </Window.ContextMenu>
+    
+</Window>

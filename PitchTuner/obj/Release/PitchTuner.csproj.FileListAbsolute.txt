@@ -1,0 +1,8 @@
+D:\VS_Workspace\pitchtuner\PitchTuner\bin\Release\lib\x64\bass.dll
+D:\VS_Workspace\pitchtuner\PitchTuner\bin\Release\lib\x86\bass.dll
+D:\VS_Workspace\pitchtuner\PitchTuner\bin\Release\PitchTunerCore.dll
+D:\VS_Workspace\pitchtuner\PitchTuner\bin\Release\PitchTunerCore.pdb
+D:\VS_Workspace\pitchtuner\PitchTuner\bin\Release\Bass.Net.dll
+D:\VS_Workspace\pitchtuner\PitchTuner\obj\Release\PitchTuner.csproj.CoreCompileInputs.cache
+D:\VS_Workspace\pitchtuner\PitchTuner\obj\Release\PitchTunerCore.dll
+D:\VS_Workspace\pitchtuner\PitchTuner\obj\Release\PitchTunerCore.pdb

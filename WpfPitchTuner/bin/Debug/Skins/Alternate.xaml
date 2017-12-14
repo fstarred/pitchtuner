@@ -1,0 +1,64 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib"        
+                    xmlns:sys2="clr-namespace:System;assembly=System"
+                    >
+
+    <sys:Double x:Key="windows_opacity">0.9</sys:Double>
+    <sys:Double x:Key="spectrum_opacity">1.0</sys:Double>
+
+    <sys:Double x:Key="meter_width">201.0</sys:Double>
+    
+    <sys:Double x:Key="spectrum_width">80</sys:Double>
+    <sys:Double x:Key="spectrum_height">40</sys:Double>
+
+    <sys:Double x:Key="fontsize_freqdisplay">14</sys:Double>
+    <sys:Double x:Key="fontsize_notedisplay">18</sys:Double>
+    <sys:Double x:Key="threshold_fontsize">11</sys:Double>
+
+    <sys2:Uri x:Key="switch_sound">pack://siteoforigin:,,,/Skins/Alternate/switch.wav</sys2:Uri>
+
+    <sys:String x:Key="message_off">WELCOME</sys:String>
+
+    <BitmapImage x:Key="background" UriSource="pack://siteoforigin:,,,/Skins/Alternate/background.png" />	
+    <BitmapImage x:Key="powerbtn" UriSource="pack://siteoforigin:,,,/Skins/Alternate/power_btn.png" />
+    <BitmapImage x:Key="panel" UriSource="pack://siteoforigin:,,,/Skins/Alternate/panel.png" />
+    <BitmapImage x:Key="bar_meter" UriSource="pack://siteoforigin:,,,/Skins/Alternate/bar_meter.png" />
+    <BitmapImage x:Key="knob_meter" UriSource="pack://siteoforigin:,,,/Skins/Alternate/knob_meter.png" />
+    <BitmapImage x:Key="settingsbtn" UriSource="pack://siteoforigin:,,,/Skins/Alternate/settings_btn.png" />
+    <BitmapImage x:Key="switchbtn_on" UriSource="pack://siteoforigin:,,,/Skins/Alternate/switch_on.png" />
+    <BitmapImage x:Key="switchbtn_off" UriSource="pack://siteoforigin:,,,/Skins/Alternate/switch_off.png" />
+    <BitmapImage x:Key="slider_bar" UriSource="pack://siteoforigin:,,,/Skins/Alternate/threshold_bar.png" />
+    <BitmapImage x:Key="slider_knob" UriSource="pack://siteoforigin:,,,/Skins/Alternate/threshold_knob.png" />
+
+    <HorizontalAlignment x:Key="panel_align">Center</HorizontalAlignment>
+    <HorizontalAlignment x:Key="barmeter_align">Center</HorizontalAlignment>
+    <HorizontalAlignment x:Key="knobmeter_align">Center</HorizontalAlignment>
+    <HorizontalAlignment x:Key="powerbtn_align">Center</HorizontalAlignment>
+    <HorizontalAlignment x:Key="preferencesbtn_align">Left</HorizontalAlignment>
+    <HorizontalAlignment x:Key="notedisplay_align">Center</HorizontalAlignment>
+    <HorizontalAlignment x:Key="freqdisplay_align">Center</HorizontalAlignment>
+    <HorizontalAlignment x:Key="switchbtn_align">Center</HorizontalAlignment>
+    <HorizontalAlignment x:Key="spectrum_align">Center</HorizontalAlignment>
+    <HorizontalAlignment x:Key="threshold_text_align">Center</HorizontalAlignment>
+    <HorizontalAlignment x:Key="threshold_slider_align">Center</HorizontalAlignment>
+
+    <Thickness x:Key="panel_margin" >0, 87, 0, 0</Thickness>
+    <Thickness x:Key="bar_meter_margin" >0, 114, 0, 0</Thickness>
+    <Thickness x:Key="knob_meter_margin" >0, 113, 0, 0</Thickness>
+    <Thickness x:Key="note_display_margin" >0, 130, 0, 0</Thickness>
+    <Thickness x:Key="freq_display_margin">0, 160, 0, 0</Thickness>
+    <Thickness x:Key="powerbtn_margin">0, 46, 0, 0</Thickness>
+    <Thickness x:Key="preferencesbtn_margin">256, 26, 0, 0</Thickness>
+    <Thickness x:Key="switchbtn_margin">0, 236, 0, 0</Thickness>
+    <Thickness x:Key="spectrum_margin">0, 175, 0, 0</Thickness>
+    <Thickness x:Key="treshold_text_margin">0, 175, 0, 0</Thickness>
+    <Thickness x:Key="treshold_slider_margin">0, 100, 0, 0</Thickness>
+    <Thickness x:Key="threshold_knob_margin">0, -7, 0, 0</Thickness>    
+
+    <SolidColorBrush x:Key="displayColor" Color="#4CFF00" />
+    <SolidColorBrush x:Key="spectrumColor" Color="#4CFF00" />
+
+    <FontFamily x:Key="displayFamily">/PitchTuner;component/Fonts/#Digital-7 Mono</FontFamily>
+
+</ResourceDictionary>

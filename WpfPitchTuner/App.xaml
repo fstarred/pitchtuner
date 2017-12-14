@@ -1,0 +1,41 @@
+﻿<Application x:Class="WpfPitchTuner.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:WpfPitchTuner.ViewModel"
+             xmlns:provider="clr-namespace:WpfPitchTuner.Provider"
+             xmlns:sysscor="clr-namespace:System;assembly=mscorlib"
+             xmlns:sys="clr-namespace:System;assembly=System"
+             xmlns:settings="clr-namespace:WpfPitchTuner.Settings"
+             StartupUri="MainWindow.xaml"             
+             >
+    <Application.Resources>
+        
+        <ResourceDictionary>
+            
+            <ResourceDictionary.MergedDictionaries>
+                <!-- set always skin as first -->
+                <ResourceDictionary Source="Skins/Default.xaml" />
+                <!--<ResourceDictionary Source="Skins/Alternate.xaml" />-->
+                <ResourceDictionary Source="Assets/custom.xaml" />                
+            </ResourceDictionary.MergedDictionaries>            
+
+            <sysscor:String x:Key="appTitle">Pitch Tuner</sysscor:String>
+            <sysscor:String x:Key="defaultSkin">Default</sysscor:String>
+
+            <sys:Uri x:Key="appupdateurl">http://dl.dropboxusercontent.com/u/55285635/pitchtuner.xml</sys:Uri>
+            <sys:Uri x:Key="apphomepage">http://pitchtuner.codeplex.com</sys:Uri>
+            <sys:Uri x:Key="devhomepage">http://www.codeplex.com/site/users/view/Zenon66</sys:Uri>
+            <sys:Uri x:Key="basshomepage">http://bass.radio42.com/bass_register.html</sys:Uri>
+
+            <ObjectDataProvider x:Key="skins"     
+                ObjectInstance="{x:Static provider:SkinProvider.Instance}"
+                MethodName="GetSkins"                
+            />
+
+            <settings:MainSettings x:Key="mainsettings" />
+            <settings:PreferencesSettings x:Key="prefsettings" />            
+
+        </ResourceDictionary>
+        
+    </Application.Resources>
+</Application>
