@@ -1,9 +1,0 @@
-D:\VS_Workspace\pitchtuner\WpfControlLibraryBass\bin\Debug\WpfControlLibraryBass.dll
-D:\VS_Workspace\pitchtuner\WpfControlLibraryBass\bin\Debug\WpfControlLibraryBass.pdb
-D:\VS_Workspace\pitchtuner\WpfControlLibraryBass\bin\Debug\Bass.Net.dll
-D:\VS_Workspace\pitchtuner\WpfControlLibraryBass\obj\Debug\WpfControlLibraryBass.csprojResolveAssemblyReference.cache
-D:\VS_Workspace\pitchtuner\WpfControlLibraryBass\obj\Debug\WpfControlLibraryBass.Properties.Resources.resources
-D:\VS_Workspace\pitchtuner\WpfControlLibraryBass\obj\Debug\WpfControlLibraryBass.csproj.GenerateResource.Cache
-D:\VS_Workspace\pitchtuner\WpfControlLibraryBass\obj\Debug\WpfControlLibraryBass.csproj.CoreCompileInputs.cache
-D:\VS_Workspace\pitchtuner\WpfControlLibraryBass\obj\Debug\WpfControlLibraryBass.dll
-D:\VS_Workspace\pitchtuner\WpfControlLibraryBass\obj\Debug\WpfControlLibraryBass.pdb
