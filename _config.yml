@@ -1,1 +1,7 @@
 theme: jekyll-theme-cayman
+show_downloads: "true"
+title: "Pitch Tuner"
+description: "Pitch Tuner Pitch Tuner is a friendly, lightweight tuner for Windows"
+author: "Starred MediaSoft"
+plugins:
+- jekyll-seo-tag
