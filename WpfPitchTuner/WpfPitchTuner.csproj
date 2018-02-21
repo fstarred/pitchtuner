@@ -41,14 +41,15 @@
     <ApplicationIcon>Assets\logo_ico.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MicroMVVM, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="MicroMvvm, Version=3.1.0.1, Culture=neutral, PublicKeyToken=fed1b943fa392844, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>lib\MicroMVVM.dll</HintPath>
+      <HintPath>..\packages\Desiem.MicroMvvm.1.0.3\lib\net40\MicroMvvm.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="MvvmFoundation.Wpf, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>lib\MvvmFoundation.Wpf.dll</HintPath>
+      <HintPath>..\packages\MvvmFoundation.Wpf.1.0.0\lib\net40\MvvmFoundation.Wpf.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -186,6 +187,7 @@
     <Resource Include="Fonts\digital-7 %28mono italic%29.ttf" />
     <Resource Include="Fonts\digital-7 %28mono%29.ttf" />
     <Resource Include="Fonts\digital-7.ttf" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
