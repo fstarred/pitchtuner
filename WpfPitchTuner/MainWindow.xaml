@@ -12,7 +12,7 @@
         xmlns:helper="clr-namespace:WpfPitchTuner.Helper"
         xmlns:view="clr-namespace:WpfPitchTuner.View"
         xmlns:settings="clr-namespace:WpfPitchTuner.Settings"
-        xmlns:ulibbass="clr-namespace:WpfControlLibraryBass.Elements;assembly=WpfControlLibraryBass"        
+        xmlns:ulibbass="clr-namespace:WpfControlLibraryBass.Elements;assembly=pitchtuner.cntr"        
         xmlns:business="clr-namespace:WpfPitchTuner.Business"
         WindowStartupLocation="CenterScreen"                
         Title="{StaticResource appTitle}"
